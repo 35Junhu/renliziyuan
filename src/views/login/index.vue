@@ -25,7 +25,7 @@
         </span>
       </el-form-item>
 
-      <el-button class="loginBtn" type="primary" style="width:100%;margin-bottom:30px;" @click="onLogin">登录</el-button>
+      <el-button class="loginBtn" :loading="loginLoading" type="primary" style="width:100%;margin-bottom:30px;" @click="onLogin">登录</el-button>
 
       <div class="tips">
         <span style="margin-right:20px;">账号: 13800000002</span>
@@ -68,24 +68,33 @@ export default {
           { min: 6, max: 16, message: '密码长度在6~16位', trigger: 'blur' }
         ]
       },
-      passwordType: 'password'
+      passwordType: 'password',
+      // 按钮的loading状态
+      loginLoading: false
     }
   },
   methods: {
     showPwd() {
       this.passwordType = this.passwordType === 'password' ? '' : 'password'
+      // 想让数据变化依旧可以获取焦点
       this.$nextTick(() => {
         this.$refs.pwd.focus()
       })
     },
     async onLogin() {
       try {
+        this.loginLoading = true
         // 整体表单校验结果,await通过后继续执行
         await this.$refs.loginForm.validate()
         // 调用vuex中的异步方法
         await this.$store.dispatch('user/loginAction', this.loginForm)
+        // 获取token后，登陆成功进行页面跳转
+        this.$router.push('/')
       } catch (error) {
         console.log(error)
+      } finally {
+        // 最终loading都会变为false
+        this.loginLoading = false
       }
     }
   }

@@ -20,11 +20,12 @@ export default {
   actions: {
     async  loginAction(context, data) {
       // context.commit('setToken', 'token值')
+      // 经过响应拦截器处理，这里就是token了
       try {
         const res = await login(data)
         console.log(res)
         // 调用，mutations中方法修改state值
-        context.commit('setToken', res.data.data)
+        context.commit('setToken', res)
       } catch (error) {
         console.log(error)
       }
