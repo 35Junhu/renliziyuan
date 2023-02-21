@@ -13,6 +13,17 @@ export function login(data) {
   })
 }
 
+/**
+ *
+ * @returns 获取用户信息
+ */
+export function getUserInfo() {
+  return request({
+    url: '/sys/profile',
+    method: 'post'
+  })
+}
+
 export function getInfo(token) {
 
 }

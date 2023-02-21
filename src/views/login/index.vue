@@ -38,6 +38,7 @@
 
 <script>
 import { validMobile } from '@/utils/validate'
+// import { mapActions } from 'vuex'
 export default {
   name: 'Login',
   data() {
@@ -74,6 +75,7 @@ export default {
     }
   },
   methods: {
+    // ...mapActions('user', ['getUserInfo']),
     showPwd() {
       this.passwordType = this.passwordType === 'password' ? '' : 'password'
       // 想让数据变化依旧可以获取焦点
@@ -88,6 +90,8 @@ export default {
         await this.$refs.loginForm.validate()
         // 调用vuex中的异步方法
         await this.$store.dispatch('user/loginAction', this.loginForm)
+        // 获取token的下步操作是获取用户相关信息----要确保有用户token的情况下
+        // await this.getUserInfo()
         // 获取token后，登陆成功进行页面跳转
         this.$router.push('/')
       } catch (error) {
